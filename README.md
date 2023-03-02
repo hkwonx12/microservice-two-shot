@@ -3,7 +3,7 @@
 Team:
 
 * Kethlyn - I will be doing the hats microservice
-* Person 2 - Which microservice?
+* Helen Kwon - Shoes
 
 ## Design
 
