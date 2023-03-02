@@ -2,7 +2,7 @@
 
 Team:
 
-* Person 1 - Which microservice?
+* Kethlyn - I will be doing the hats microservice
 * Person 2 - Which microservice?
 
 ## Design
