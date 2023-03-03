@@ -4,12 +4,10 @@ import ShoesList from './ShoesList';
 import ShoesBinForm from './ShoesBinForm';
 import Nav from './Nav';
 import HatsList from './hatsList';
+import HatsLocationForm from './hatsLocationForm';
+
 
 function App(props) {
-<<<<<<< HEAD
-=======
-
->>>>>>> main
   return (
       <BrowserRouter>
         <Nav />
@@ -21,13 +19,15 @@ function App(props) {
               <Route path="new" element={<ShoesBinForm />}/>
             </Route>
           </Routes>
+          <Routes>
+            <Route path="hats">
+              <Route index element={<HatsList />}/>
+              <Route path="new" element={<HatsLocationForm />}/>
+            </Route>
+          </Routes>
         </div>
       </BrowserRouter>
   );
 }
 
 export default App;
-
-
-
- 

@@ -1,22 +1,33 @@
 import React, {useState, useEffect } from 'react';
 
-function hatsLocationForm() {
-  const [location, setLocation] = useState([])
+function HatsLocationForm() {
+  const [locations, setLocations] = useState([])
   const [formData, setFormData] = useState({
-    Style_name: '',
+    fabric: '',
+    style_name: '',
     color: '',
-    location: '',
-    fabric: ''
+    picture_url: '',
+    location: ''
   })
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const getData = async () => {
+    const url = 'http://localhost:8100/api/locations/';
+    const response = await fetch(url);
+
+    if (response.ok) {
+        const data = await response.json();
+        setLocations(data.locations);
+    }
+  }
+
+      useEffect(() => {
+          getData();
+      },  []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const locationUrl = `http://localhost:8090${formData.location}hats/`;
+    const locationUrl = `http://localhost:8090/api/hats/`;
 
     const fetchConfig = {
       method: "post",
@@ -30,10 +41,11 @@ function hatsLocationForm() {
 
     if (response.ok) {
       setFormData({
+        fabric: '',
         style_name: '',
         color: '',
-        location: '',
-        fabric: ''
+        picture_url: '',
+        location: ''
       });
 
     }
@@ -48,69 +60,55 @@ function hatsLocationForm() {
     });
   }
 
-  //Allows for the form to display on when a user has not signed in.
-  //If a user has signed in, the css class d-none is added to the unneeded piece of the interface
 
   return (
     <div className="my-5">
       <div className="row">
-        <div className="col col-sm-auto">
-          <img width="300" className="bg-white rounded shadow d-block mx-auto mb-4" src="logo.svg" />
-        </div>
-
         <div className="col">
           <div className="card shadow">
             <div className="card-body">
-
-              <form className={formClasses} onSubmit={handleSubmit} id="create-hat-form">
-                <h1 className="card-title">It's Time to Pick a Location for your Hat!</h1>
+              <form onSubmit={handleSubmit} id="create-hatlocation-form">
+                <h1 className="card-title">Wardrobify</h1>
                 <p className="mb-3">
-                  Please choose which location you would like this hat to be in.
+                  Please create a new hat.
                 </p>
+                <div className="form-floating mb-3">
+                    <input value={formData.fabric} onChange={handleChangeName} required placeholder='fabric' type="text" id="fabric" name="fabric" className="form-control" />
+                    <label htmlFor="fabric">Fabric</label>
+                </div>
+                <div className="form-floating mb-3">
+                    <input value={formData.style_name} onChange={handleChangeName} required placeholder='style_name' type="text" id="style_name" name="style_name" className="form-control" />
+                    <label htmlFor="style_name">Style_name</label>
+                </div>
+                <div className="form-floating mb-3">
+                    <input value={formData.color} onChange={handleChangeName} required placeholder='color' type="text" id="color" name="color" className="form-control" />
+                    <label htmlFor="color">Color</label>
+                </div>
+                <div className="form-floating mb-3">
+                    <input value={formData.picture_url} onChange={handleChangeName} required placeholder='picture_url' type="URL" id="picture_url" name="picture_url" className="form-control" />
+                    <label htmlFor="fabric">Picture_url</label>
+                </div>
 
-                <div className="mb-3">
-                  <select onChange={handleChangeName} name="hat" id="hat" required>
-                    <option value="">Choose a location</option>
+                <div>
+                    <select value={formData.location} onChange={handleChangeName} name='location' id="location" required>
+                        <option value="">Choose a location</option>
                     {
-                      locations.map(hat => {
-                        return (
-                          <option key={conference.href} value={conference.href}>{conference.name}</option>
-                        )
-                      })
+                        locations.map(location => {
+                            return (
+                              <option key={location.href} value={location.href}>{location.closet_name}</option>
+                            )
+                        })
                     }
-                  </select>
+                    </select>
                 </div>
-                <p className="mb-3">
-                  Now, tell us about yourself.
-                </p>
-
-                <div className="row">
-                  <div className="col">
-                    <div className="form-floating mb-3">
-                      <input onChange={handleChangeName} required placeholder="Your full name" type="text" id="name" name="name" className="form-control" />
-                      <label htmlFor="name">Your full name</label>
-                    </div>
-                  </div>
-                  <div className="col">
-                    <div className="form-floating mb-3">
-                      <input onChange={handleChangeName} required placeholder="Your email address" type="email" id="email" name="email" className="form-control" />
-                      <label htmlFor="email">Your email address</label>
-                    </div>
-                  </div>
-                </div>
-                <button className="btn btn-lg btn-primary">I'm going!</button>
+                <button className="btn btn-lg btn-primary">Create</button>
               </form>
-
-              <div className={messageClasses} id="success-message">
-                Congratulations! You're all signed up!
-              </div>
-
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default hatsLocationForm;
+export default HatsLocationForm;
