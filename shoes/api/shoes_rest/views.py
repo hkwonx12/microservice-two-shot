@@ -45,10 +45,8 @@ def api_list_shoes(request):
         )
     else:
         content = json.loads(request.body)
-        print(content)
         try:
             bin_href = f'/api/bins/{content["bin"]}/'
-            print(BinVO.objects.all())
             bin = BinVO.objects.get(import_href=bin_href)
             content["bin"] = bin
 
