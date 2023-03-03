@@ -31,7 +31,7 @@ class HatsDetailEncoder(ModelEncoder):
 class HatsListEncoder(ModelEncoder):
     model = Hats
     properties = [
-        "style_name", "id",
+        "fabric", "style_name", "color","picture_url", "id"
     ]
 
 
@@ -45,10 +45,9 @@ def api_list_hats(request):
         )
     else:
         content = json.loads(request.body)
-        print(content)
         try:
-            href = f'/api/locations/{content["location"]}/'
-            print(LocationVO.objects.all())
+            href = content["location"]
+            print(href)
             location= LocationVO.objects.get(import_href=href)
             content["location"] = location
         except LocationVO.DoesNotExist:
