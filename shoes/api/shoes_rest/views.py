@@ -17,12 +17,15 @@ class BinVoEncoder(ModelEncoder):
 class ShoesListEncoder(ModelEncoder):
     model = Shoe
     properties = [
-        "model_name",
         "manufacturer",
-        "id",
+        "model_name",
         "color",
         "picture_URL",
+        "id",
         ]
+    encoders = {
+        "bin": BinVoEncoder(),
+    }
 
 class ShoesDetailEncoder(ModelEncoder):
     model = Shoe
@@ -31,6 +34,7 @@ class ShoesDetailEncoder(ModelEncoder):
         "model_name",
         "color",
         "picture_URL",
+        "id",
     ]
     encoders = {
         "bin": BinVoEncoder(),
@@ -48,7 +52,7 @@ def api_list_shoes(request):
     else:
         content = json.loads(request.body)
         try:
-            bin_href = f'/api/bins/{content["bin"]}/'
+            bin_href = content["bin"]
             bin = BinVO.objects.get(import_href=bin_href)
             content["bin"] = bin
 
