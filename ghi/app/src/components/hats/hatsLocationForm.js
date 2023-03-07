@@ -20,9 +20,9 @@ function HatsLocationForm() {
     }
   }
 
-      useEffect(() => {
-          getData();
-      },  []);
+  useEffect(() => {
+      getData();
+  },  []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -47,17 +47,18 @@ function HatsLocationForm() {
         picture_url: '',
         location: ''
       });
-
     }
   }
 
   const handleChangeName = (e) => {
     const value = e.target.value;
     const inputName = e.target.name;
+
     setFormData({
       ...formData,
       [inputName]: value
     });
+
   }
 
 
@@ -92,13 +93,13 @@ function HatsLocationForm() {
                 <div>
                     <select value={formData.location} onChange={handleChangeName} name='location' id="location" required>
                         <option value="">Choose a location</option>
-                    {
-                        locations.map(location => {
-                            return (
-                              <option key={location.href} value={location.href}>{location.closet_name}</option>
-                            )
-                        })
-                    }
+                        {
+                            locations.map(location => {
+                                return (
+                                  <option key={location.href} value={location.href}>{location.closet_name}</option>
+                                )
+                            })
+                        }
                     </select>
                 </div>
                 <button className="btn btn-lg btn-primary">Create</button>

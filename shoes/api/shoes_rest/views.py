@@ -14,28 +14,14 @@ class BinVoEncoder(ModelEncoder):
         "import_href",
     ]
 
-class ShoesListEncoder(ModelEncoder):
+class ShoesEncoder(ModelEncoder):
     model = Shoe
     properties = [
-        "manufacturer",
-        "model_name",
-        "color",
-        "picture_URL",
-        "id",
+            "manufacturer",
+            "model_name",
+            "color",
+            "picture_URL",
         ]
-    encoders = {
-        "bin": BinVoEncoder(),
-    }
-
-class ShoesDetailEncoder(ModelEncoder):
-    model = Shoe
-    properties = [
-        "manufacturer",
-        "model_name",
-        "color",
-        "picture_URL",
-        "id",
-    ]
     encoders = {
         "bin": BinVoEncoder(),
     }
@@ -46,7 +32,7 @@ def api_list_shoes(request):
         shoes = Shoe.objects.all()
         return JsonResponse(
             {"shoes": shoes},
-            encoder=ShoesListEncoder,
+            encoder=ShoesEncoder,
             safe=False,
         )
     else:
@@ -59,13 +45,13 @@ def api_list_shoes(request):
         except BinVO.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid bin id"},
-                status=400,
+                status=404,
             )
 
         shoe = Shoe.objects.create(**content)
         return JsonResponse(
             shoe,
-            encoder=ShoesDetailEncoder,
+            encoder=ShoesEncoder,
             safe=False,
         )
 
@@ -77,7 +63,7 @@ def api_detail_shoes(request, pk):
             shoe = Shoe.objects.get(id=pk)
             return JsonResponse(
                 shoe,
-                encoder=ShoesDetailEncoder,
+                encoder=ShoesEncoder,
                 safe=False
             )
         except Shoe.DoesNotExist:
@@ -98,7 +84,7 @@ def api_detail_shoes(request, pk):
             shoe = Shoe.objects.get(id=pk)
             return JsonResponse(
                 shoe,
-                encoder=ShoesDetailEncoder,
+                encoder=ShoesEncoder,
                 safe=False,
             )
         except Shoe.DoesNotExist:

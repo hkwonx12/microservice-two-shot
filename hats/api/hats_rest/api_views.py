@@ -8,8 +8,6 @@ import json
 
 from .encoder import LocationVOEncoder, HatsDetailEncoder, HatsListEncoder
 
-
-
 @require_http_methods(["GET", "POST"])
 def api_list_hats(request):
     if request.method == "GET":
@@ -22,12 +20,11 @@ def api_list_hats(request):
         content = json.loads(request.body)
         try:
             href = content["location"]
-            print(href)
             location= LocationVO.objects.get(import_href=href)
             content["location"] = location
         except LocationVO.DoesNotExist:
             return JsonResponse(
-                {"message": "Invalid Location"}, status=400,)
+                {"message": "Invalid Location"}, status=404,)
 
         hat=Hats.objects.create(**content)
         return JsonResponse(
@@ -63,6 +60,17 @@ def api_detail_hat(request, pk):
             return JsonResponse({"message": "Does not exist"})
     else: # PUT
         content = json.loads(request.body)
+
+        try:
+            if ("location" in content):
+                href = content["location"]
+                location= LocationVO.objects.get(import_href=href)
+                content["location"] = location
+                
+        except LocationVO.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid Location"}, status=404,)
+        
         Hats.objects.filter(id=pk).update(**content)
         try:
             hat = Hats.objects.get(id=pk)

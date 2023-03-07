@@ -56,7 +56,10 @@ function ShoesList () {
                                 <td>{shoe.model_name}</td>
                                 <td>{shoe.manufacturer}</td>
                                 <td>{shoe.color}</td>
-                                <td>{shoe.picture_URL}</td>
+                                {
+                                    (shoe.picture_URL === null)?<td><img src="generic_show.png"/></td>: <td><img src={shoe.picture_URL}/></td>
+                                }
+                                
                                 <td><button onClick={handleDelete} id={shoe.id} className="btn btn-danger">Delete</button></td>
                             </tr>
                         );
