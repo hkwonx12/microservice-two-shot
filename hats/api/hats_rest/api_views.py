@@ -1,38 +1,13 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+
 from hats_rest.models import Hats, LocationVO
 from django.http import JsonResponse
-from common.json import ModelEncoder
+
 import json
-# Create your views here.
-class LocationVOEncoder(ModelEncoder):
-    model = LocationVO
-    properties = [
-        "import_href",
-        "closet_name",
-        "section_number",
-        "shelf_number",
-    ]
 
-class HatsDetailEncoder(ModelEncoder):
-    model = Hats
-    properties = [
-        "fabric",
-        "style_name",
-        "color",
-        "picture_url",
-        "location",
-    ]
-    encoders = {
-        "location": LocationVOEncoder(),
-    }
+from .encoder import LocationVOEncoder, HatsDetailEncoder, HatsListEncoder
 
-
-class HatsListEncoder(ModelEncoder):
-    model = Hats
-    properties = [
-        "fabric", "style_name", "color","picture_url", "id"
-    ]
 
 
 @require_http_methods(["GET", "POST"])

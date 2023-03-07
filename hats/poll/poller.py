@@ -21,9 +21,10 @@ def get_hats():
     for location in content["locations"]:
         LocationVO.objects.update_or_create(
             import_href= location["href"],
-            defaults={"shelf_number": location["shelf_number"],
-            "closet_name": location["closet_name"],
-            "section_number": location["section_number"],
+            defaults={
+                "shelf_number": location["shelf_number"],
+                "closet_name": location["closet_name"],
+                "section_number": location["section_number"],
              },
         )
 
